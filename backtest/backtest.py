@@ -53,6 +53,6 @@ if __name__ == "__main__":
         res = pool.map(backtest_optimized_bolling, para_list)
         res_df = pd.DataFrame(res, columns=["n", "m", "l", "equity_curve"])
         res_df.sort_values(by="equity_curve", ascending=False, inplace=True)
-        res_file = project_dir + "/data/binance/spot/BTC-USDT/5m/optimized_bolling.csv"
+        res_file = project_dir + "/data/binance/spot/BTC-USDT/5m/optimized_bolling_para_res.csv"
         res_df.to_csv(res_file, index=False)
 
