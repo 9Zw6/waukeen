@@ -54,5 +54,6 @@ if __name__ == "__main__":
         res_df = pd.DataFrame(res, columns=["n", "m", "l", "equity_curve"])
         res_df.sort_values(by="equity_curve", ascending=False, inplace=True)
         res_file = project_dir + "/data/binance/spot/BTC-USDT/5m/optimized_bolling_para_res.csv"
+        res_df = res_df.iloc[0:100]
         res_df.to_csv(res_file, index=False)
 
