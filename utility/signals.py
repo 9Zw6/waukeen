@@ -15,22 +15,26 @@ def signal_optimized_bolling(df, para=[440, 2.6, 0.05]):
     # 计算signal long = 1
     condition1 = df["close"] > df["upper"]
     condition2 = df["close"].shift(1) <= df["upper"].shift(1)
-    df.loc[condition1 & condition2, "signal_simple_bolling"] = 1
+    df.loc[condition1 & condition2, "signal_simple_bolling_long"] = 1
 
     # 计算signal long = 0
     condition1 = df["close"] < df["median"]
     condition2 = df["close"].shift(1) >= df["median"].shift(1)
-    df.loc[condition1 & condition2, "signal_simple_bolling"] = 0
+    df.loc[condition1 & condition2, "signal_simple_bolling_long"] = 0
 
     # 计算signal short = -1
     condition1 = df["close"] < df["lower"]
     condition2 = df["close"].shift(1) >= df["lower"].shift(1)
-    df.loc[condition1 & condition2, "signal_simple_bolling"] = -1
+    df.loc[condition1 & condition2, "signal_simple_bolling_short"] = -1
 
     # 计算signal short = 0
     condition1 = df["close"] > df["median"]
     condition2 = df["close"].shift(1) <= df["median"].shift(1)
-    df.loc[condition1 & condition2, "signal_simple_bolling"] = 0
+    df.loc[condition1 & condition2, "signal_simple_bolling_short"] = 0
+
+    #合并信号
+    df["signal_simple_bolling"] = df[["signal_simple_bolling_long", "signal_simple_bolling_short"]]\
+        .sum(axis=1, min_count=1, skipna=True)
 
     # 补充NaN
     df["signal_simple_bolling"].fillna(method="ffill", inplace=True)
@@ -55,6 +59,7 @@ def signal_optimized_bolling(df, para=[440, 2.6, 0.05]):
 
     df["signal"].fillna(method="ffill", inplace=True)
 
-    df.drop(["median", "std", "upper", "lower", "signal_simple_bolling", "diff"], axis=1, inplace=True)
+    df.drop(["median", "std", "upper", "lower", "signal_simple_bolling_long", "signal_simple_bolling_short",
+             "signal_simple_bolling", "diff"], axis=1, inplace=True)
 
     return df
