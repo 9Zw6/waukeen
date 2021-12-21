@@ -33,6 +33,7 @@ def backtest_optimized_bolling(para):
     df = evaluate.equity_curve_for_OKEX_future(df, leverage_rate=3)
     para.append(df.iloc[-1]["equity_curve"])
     print(para)
+
     return para
 
 
@@ -57,4 +58,3 @@ if __name__ == "__main__":
         res_file = project_dir + "/data/binance/spot/BTC-USDT/5m/optimized_bolling_para_res.csv"
         res_df = res_df.iloc[0:100]
         res_df.to_csv(res_file, index=False)
-
