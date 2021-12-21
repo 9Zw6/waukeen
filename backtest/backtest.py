@@ -38,7 +38,7 @@ def backtest_optimized_bolling(para):
 
 if __name__ == "__main__":
     # 生成参数
-    n_list = range(300, 600, 10)
+    n_list = range(300, 450, 10)
     m_list = [i / 10 for i in range(10, 50, 1)]
     l_list = [i / 100 for i in range(1, 10, 1)]
     para_list = []
@@ -48,6 +48,7 @@ if __name__ == "__main__":
                 para = [n, m, l]
                 para_list.append(para)
 
+    # para_list = [[360, 3.0, 0.07]] # for test
     # 多进程加速回测
     with Pool(processes=8) as pool:
         res = pool.map(backtest_optimized_bolling, para_list)
